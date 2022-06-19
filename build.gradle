@@ -45,6 +45,22 @@ minecraft {
 
 repositories {
     maven { url = 'https://repo.spongepowered.org/maven' }
+    maven {
+        name 'ForgeFS'
+        url 'http://files.minecraftforge.net/maven'
+    }
+    maven {
+        name 'amadornes'
+        url 'http://maven.amadornes.com/'
+    }
+    maven {
+        name 'prog'
+        url 'http://dvs1.progwml6.com/files/maven'
+    }
+    maven {
+        name 'CoFH Maven'
+        url = 'http://maven.covers1624.net'
+    }
 }
 
 configurations {
@@ -60,6 +76,9 @@ dependencies {
         exclude module: 'commons-io'
         exclude module: 'gson'
     }
+
+//    compile(deobf(files("appliedenergistics2-rv6-stable-7.jar")))
+    compile ("appeng:appliedenergistics2:rv6-stable-7")
 }
 
 processResources {

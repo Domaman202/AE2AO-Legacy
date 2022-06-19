@@ -1,9 +1,9 @@
 {
   "compatibilityLevel": "JAVA_8",
-  "package": "com.yourname.modid.mixin",
+  "package": "ru.dmn.ae2ao.mixin",
   "refmap": "refmap.example.json",
   "mixins": [
-    "MixinMinecraft"
+    "MixinTileController"
   ],
   "client": [],
   "server": []
