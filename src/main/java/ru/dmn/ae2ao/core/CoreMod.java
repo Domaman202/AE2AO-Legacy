@@ -15,7 +15,7 @@ public class CoreMod implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[0];
+        return new String[] {"ru.dmn.ae2ao.core.AE2AOTransformer"};
     }
 
     @Override
@@ -31,9 +31,6 @@ public class CoreMod implements IFMLLoadingPlugin {
 
     @Override
     public void injectData(Map<String, Object> data) {
-        MixinBootstrap.init();
-        Mixins.addConfiguration("mixins." + Example.MOD_ID + ".json");
-        MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
     }
 
     @Override
