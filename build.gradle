@@ -1,19 +1,15 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        maven { url = "https://repo.spongepowered.org/maven" }
         jcenter()
         mavenCentral()
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 
 version = mod_version
@@ -77,8 +73,8 @@ dependencies {
         exclude module: 'gson'
     }
 
-    compile(deobf(files("appliedenergistics2-rv6-stable-7.jar")))
-//    compile ("appeng:appliedenergistics2:rv6-stable-7")
+//    compile(deobf(files("appliedenergistics2-rv6-stable-7.jar")))
+    compile ("appeng:appliedenergistics2:rv6-stable-7")
 }
 
 processResources {
@@ -96,10 +92,6 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-}
-
-mixin {
-    add sourceSets.main, mod_mixin_refmap.replace('${mod_id}', mod_id)
 }
 
 jar {

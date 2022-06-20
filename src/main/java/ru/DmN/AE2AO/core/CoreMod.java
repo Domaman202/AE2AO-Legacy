@@ -1,10 +1,6 @@
-package ru.dmn.ae2ao.core;
+package ru.DmN.AE2AO.core;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-import org.spongepowered.asm.launch.MixinBootstrap;
-import org.spongepowered.asm.mixin.MixinEnvironment;
-import org.spongepowered.asm.mixin.Mixins;
-import ru.dmn.ae2ao.Example;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -15,7 +11,7 @@ public class CoreMod implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[] {"ru.dmn.ae2ao.core.AE2AOTransformer"};
+        return new String[] {"ru.DmN.AE2AO.core.AE2AOTransformer"};
     }
 
     @Override
