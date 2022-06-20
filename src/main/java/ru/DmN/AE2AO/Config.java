@@ -1,5 +1,10 @@
 package ru.DmN.AE2AO;
 
+import appeng.me.GridNode;
+import sun.misc.Unsafe;
+
+import java.lang.reflect.Field;
+
 public class Config implements Cloneable {
     public boolean DisableChannels = false;
     public boolean ControllerLimits = false;
@@ -19,6 +24,18 @@ public class Config implements Cloneable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    //
+    public void useConfig() {
+        try {
+            Field f = GridNode.class.getDeclaredField("CHANNEL_COUNT");
+            f.setAccessible(true);
+            int[] arr = (int[]) f.get(null);
+            arr[1] = this.DisableChannels ? Integer.MAX_VALUE : 8;
+            arr[2] = this.DisableChannels ? Integer.MAX_VALUE : 32;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

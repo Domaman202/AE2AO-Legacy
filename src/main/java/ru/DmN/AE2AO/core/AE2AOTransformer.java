@@ -26,16 +26,16 @@ public class AE2AOTransformer implements IClassTransformer {
         @Override
         public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
             if (name.equals("updateMeta")) {
-                return new MethodReplacer(super.visitMethod(ACC_PRIVATE, "updateMeta", "()V", null, null));
+                return new MethodReplacer0(super.visitMethod(ACC_PRIVATE, "updateMeta", "()V", null, null));
             }
             return super.visitMethod(access, name, desc, signature, exceptions);
         }
     }
 
-    public static class MethodReplacer extends MethodVisitor {
+    public static class MethodReplacer0 extends MethodVisitor {
         public final MethodVisitor target;
 
-        public MethodReplacer(MethodVisitor target) {
+        public MethodReplacer0(MethodVisitor target) {
             super(ASM5);
             this.target = target;
         }

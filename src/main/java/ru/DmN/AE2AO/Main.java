@@ -30,6 +30,7 @@ public class Main {
             } else {
                 DC = new Toml().read(conf).to(Config.class);
                 LC = DC.clone();
+                LC.useConfig();
             }
         } catch (Exception e) {
             e.printStackTrace();
