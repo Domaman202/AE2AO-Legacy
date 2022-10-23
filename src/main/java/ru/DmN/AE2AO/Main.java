@@ -11,12 +11,14 @@ import java.nio.charset.StandardCharsets;
 @Mod(modid = Main.MOD_ID)
 public class Main {
     public static final String MOD_ID = "ae2ao";
-    /** Default Config */
+    /**
+     * Default Config
+     */
     public static Config DC = new Config();
-    /** Last Config */
+    /**
+     * Last Config
+     */
     public static Config LC = DC.clone();
-    /** Prev Config */
-    public static Config PC = LC.clone();
 
     @Mod.EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
@@ -27,6 +29,7 @@ public class Main {
                 try (FileOutputStream stream = new FileOutputStream(conf)) {
                     stream.write("DisableChannels = false\nControllerLimits = false\nMax_X = 7\nMax_Y = 7\nMax_Z = 7\nSCFD = false\nStorageCellLimits = true\nChatInfo = true".getBytes(StandardCharsets.UTF_8));
                 }
+                DC.useConfig();
             } else {
                 DC = new Toml().read(conf).to(Config.class);
                 LC = DC.clone();
@@ -35,5 +38,11 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private int usedChannels = 0;
+    private int getUsedChannels()
+    {
+        return Main.LC.DisableChannels ? 1 : this.usedChannels;
     }
 }

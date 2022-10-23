@@ -10,22 +10,167 @@ public class AE2AOTransformer implements IClassTransformer {
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
         if (name.equals("appeng.tile.networking.TileController")) {
             ClassReader reader = new ClassReader(basicClass);
-            ClassWriter writer = new ClassWriter(reader, 0);
-            reader.accept(new Replacer(writer), 0);
+            ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES);
+            reader.accept(new Replacer0(writer), 0);
+            return writer.toByteArray();
+        } else if (name.equals("appeng.me.GridNode")) {
+            ClassReader reader = new ClassReader(basicClass);
+            ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES);
+            reader.accept(new Replacer1(writer), 0);
             return writer.toByteArray();
         }
 
         return basicClass;
     }
 
-    public static class Replacer extends ClassVisitor {
-        public Replacer(ClassWriter cw) {
+    public static class Replacer1 extends ClassVisitor {
+        public Replacer1(ClassWriter cw) {
+            super(ASM5, cw);
+        }
+
+        @Override
+        public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+            if (name.equals("getMaxChannels")) {
+                System.out.println("[AE2AO] " + name);
+                return new MethodReplacer1(super.visitMethod(ACC_PRIVATE, name, desc, null, null));
+            } else if (name.equals("getLastUsedChannels") | name.equals("usedChannels")) {
+                System.out.println("[AE2AO] " + name);
+                return new MethodReplacer2(super.visitMethod(ACC_PUBLIC, name, desc, null, null));
+            } else if (name.equals("getUsedChannels")) {
+                System.out.println("[AE2AO] " + name);
+                return new MethodReplacer3(super.visitMethod(ACC_PRIVATE, name, desc, null, null));
+            }
+            return super.visitMethod(access, name, desc, signature, exceptions);
+        }
+    }
+
+    public static class MethodReplacer3 extends MethodVisitor {
+        public final MethodVisitor target;
+
+        public MethodReplacer3(MethodVisitor target) {
+            super(ASM5);
+            this.target = target;
+        }
+
+        @Override
+        public void visitMaxs(int maxStack, int maxLocals) {
+            target.visitMaxs(1, 1);
+        }
+
+        @Override
+        public void visitCode() {
+            Label label0 = new Label();
+            target.visitLabel(label0);
+            target.visitLineNumber(46, label0);
+            target.visitFieldInsn(GETSTATIC, "ru/DmN/AE2AO/Main", "LC", "Lru/DmN/AE2AO/Config;");
+            target.visitFieldInsn(GETFIELD, "ru/DmN/AE2AO/Config", "DisableChannels", "Z");
+            Label label1 = new Label();
+            target.visitJumpInsn(IFEQ, label1);
+            target.visitInsn(ICONST_1);
+            Label label2 = new Label();
+            target.visitJumpInsn(GOTO, label2);
+            target.visitLabel(label1);
+            target.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+            target.visitVarInsn(ALOAD, 0);
+            target.visitFieldInsn(GETFIELD, "appeng/me/GridNode", "usedChannels", "I");
+            target.visitLabel(label2);
+            target.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[]{Opcodes.INTEGER});
+            target.visitInsn(IRETURN);
+            Label label3 = new Label();
+            target.visitLabel(label3);
+            target.visitLocalVariable("this", "Lappeng/me/GridNode;", null, label0, label3, 0);
+        }
+    }
+
+    public static class MethodReplacer2 extends MethodVisitor {
+        public final MethodVisitor target;
+
+        public MethodReplacer2(MethodVisitor target) {
+            super(ASM5);
+            this.target = target;
+        }
+
+        @Override
+        public void visitMaxs(int maxStack, int maxLocals) {
+            target.visitMaxs(1, 1);
+        }
+
+        @Override
+        public void visitCode() {
+            Label label0 = new Label();
+            target.visitLabel(label0);
+            target.visitLineNumber(46, label0);
+            target.visitFieldInsn(GETSTATIC, "ru/DmN/AE2AO/Main", "LC", "Lru/DmN/AE2AO/Config;");
+            target.visitFieldInsn(GETFIELD, "ru/DmN/AE2AO/Config", "DisableChannels", "Z");
+            Label label1 = new Label();
+            target.visitJumpInsn(IFEQ, label1);
+            target.visitInsn(ICONST_1);
+            Label label2 = new Label();
+            target.visitJumpInsn(GOTO, label2);
+            target.visitLabel(label1);
+            target.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+            target.visitVarInsn(ALOAD, 0);
+            target.visitFieldInsn(GETFIELD, "appeng/me/GridNode", "lastUsedChannels", "I");
+            target.visitLabel(label2);
+            target.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[]{Opcodes.INTEGER});
+            target.visitInsn(IRETURN);
+            Label label3 = new Label();
+            target.visitLabel(label3);
+            target.visitLocalVariable("this", "Lappeng/me/GridNode;", null, label0, label3, 0);
+        }
+    }
+
+    public static class MethodReplacer1 extends MethodVisitor {
+        public final MethodVisitor target;
+
+        public MethodReplacer1(MethodVisitor target) {
+            super(ASM5);
+            this.target = target;
+        }
+
+        @Override
+        public void visitMaxs(int maxStack, int maxLocals) {
+            target.visitMaxs(3, 1);
+        }
+
+        @Override
+        public void visitCode() {
+            Label label0 = new Label();
+            target.visitLabel(label0);
+            target.visitLineNumber(47, label0);
+            target.visitFieldInsn(GETSTATIC, "ru/DmN/AE2AO/Main", "LC", "Lru/DmN/AE2AO/Config;");
+            target.visitFieldInsn(GETFIELD, "ru/DmN/AE2AO/Config", "DisableChannels", "Z");
+            Label label1 = new Label();
+            target.visitJumpInsn(IFEQ, label1);
+            target.visitLdcInsn(2147483647);
+            Label label2 = new Label();
+            target.visitJumpInsn(GOTO, label2);
+            target.visitLabel(label1);
+            target.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+            target.visitFieldInsn(GETSTATIC, "appeng/me/GridNode", "CHANNEL_COUNT", "[I");
+            target.visitVarInsn(ALOAD, 0);
+            target.visitFieldInsn(GETFIELD, "appeng/me/GridNode", "compressedData", "I");
+            target.visitInsn(ICONST_3);
+            target.visitInsn(IAND);
+            target.visitInsn(IALOAD);
+            target.visitLabel(label2);
+            target.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[]{Opcodes.INTEGER});
+            target.visitInsn(IRETURN);
+            Label label3 = new Label();
+            target.visitLabel(label3);
+            target.visitLocalVariable("this", "Lappeng/me/GridNode;", null, label0, label3, 0);
+        }
+    }
+
+    public static class Replacer0 extends ClassVisitor {
+        public Replacer0(ClassWriter cw) {
             super(ASM5, cw);
         }
 
         @Override
         public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
             if (name.equals("updateMeta")) {
+                System.out.println("[AE2AO] " + name);
                 return new MethodReplacer0(super.visitMethod(ACC_PRIVATE, "updateMeta", "()V", null, null));
             }
             return super.visitMethod(access, name, desc, signature, exceptions);
